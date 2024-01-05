@@ -77,3 +77,6 @@ SELECT tags.tag_name AS tag_name, COUNT(photo_tags.tag_id) AS total_tags FROM ta
 
 -- Quantity of comments written by each person - ascending
  SELECT username, COUNT(comments.user_id) AS total_comments FROM users LEFT JOIN comments ON users.id = comments.user_id GROUP BY username ORDER BY total_comments ASC; 
+
+-- Quantity and name of hashtags  used by each person
+SELECT ROW_NUMBER () OVER(ORDER BY COUNT(users.id)) AS number, username, tags.tag_name, COUNT(photo_tags.tag_id) AS total_tags_used FROM users RIGHT JOIN tags ON users.id = tags.id JOIN photo_tags ON users.id = photo_tags.tag_id GROUP BY username;
