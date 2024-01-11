@@ -80,3 +80,10 @@ SELECT tags.tag_name AS tag_name, COUNT(photo_tags.tag_id) AS total_tags FROM ta
 
 -- Quantity and name of hashtags  used by each person
 SELECT ROW_NUMBER () OVER(ORDER BY COUNT(users.id)) AS number, username, tags.tag_name, COUNT(photo_tags.tag_id) AS total_tags_used FROM users RIGHT JOIN tags ON users.id = tags.id JOIN photo_tags ON users.id = photo_tags.tag_id GROUP BY username;
+
+-- choosing id, username, sum likes and comments per user
+with cte as
+(select u.id, u.username, count(l.photo_id) as posts_liked from users u left join likes l on u.id = l.user_id group by u.id
+UNION ALL
+select u.id, u.username, count(c.user_id) as com_written from users u left join comments c on u.id = c.user_id group by u.id)
+select id, username, sum(posts_liked) as num_com_likes from cte group by id, username order by sum(posts_liked) desc, id;
