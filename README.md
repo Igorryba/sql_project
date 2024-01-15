@@ -1,4 +1,5 @@
 # sql_project
+Here is my sql_project with few tables. At the bottom of it you have queries which show some informations from tables.
 
 DROP DATABASE IF EXISTS ig_clone;
 CREATE DATABASE ig_clone;
